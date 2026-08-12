@@ -1,0 +1,125 @@
+day 3
+
+laki sweldo skill no.1: 			convert to network address
+	   gi1: 192.168.100.97/28  		192.168.100.96/28
+vpnrouter: gi2: 10.75.10.5/11			10.64.0.0/11
+	   gi3: 172.16.225.1/20			122.16.224.0/20
+	   gi4: 10.50.135.5/21			10.50.128.0
+configure: static, ospf, eigro, bgo, and default routing.
+static: ip route 192.168.100.96 255.255.255.240 ___
+	ip route 10.64.0.0 255.224.0.0 ___
+	ip route 172.16.224.0 255.255.240.0 ___
+	ip route 10.50.128.0 255.255.248.0 ___
+ospf: router ospf 1
+	network 192.168.100.96 0.0.0.15 area 0
+	network 10.64.0.0 0.31.255.255 area 0
+	network 172.16.224.0 0.0.15.255 area 0
+	network 10.50.128.0 255.255.248.0 area 0
+eigrp: router eigrp 1
+	network 192.168.100.96 0.0.0.15 
+	network 10.64.0.0 0.31.255.255 
+	network 172.16.224.0 0.0.15.255
+	network 10.50.128.0 0.0.7.255
+bgp: router bgp 1
+	network 192.168.100.96 mask 0.0.0.15 
+	network 10.64.0.0 mask 0.31.255.255 
+	network 172.16.224.0 mask 0.0.15.255
+	network 10.50.128.0 mask 0.0.7.255
+
+
+task 3:
+
+@A1:
+config t
+Int e0/0
+switch mode access
+switchport access vlan 10
+end
+sh vlan brief
+
+@A2:
+config t
+Int e1/0
+switch mode access
+switchport access vlan 10
+end
+sh vlan brief
+
+:learn how to find the gateway: OH syet:
+job interview:
+cisco: sh ip route
+microsoft: route print
+linux: netstat -rn
+
+
+open secure crt
+user:root
+pw: C1sc0123
+for linux to check "netstat -rn"
+
+@c1
+show ip route connected | inc C
+
+@a2
+config t
+ip route 0.0.0.0 0.0.0.0 192.168.1.130
+
+
+@r1
+config t
+interface loopback 1
+ip address 1.1.1.1 255.255.255.255
+router ospf 1
+router-id 1.1.1.1
+network 1.1.1.1 0.0.0.0 area 0
+network 10.1.1.0 0.0.0.3 area 0
+interface e1/0
+   ip ospf priority 0
+end
+
+how to config realword BGP/ 150k day
+config t
+router bgp 1
+bgp router-id 207.7.7.1
+bgp log-neighbor-changes
+neighbor 209.9.9.3 remote-as 3
+neighbor 207.7.7.2 remote-as 2
+neighbor 208.8.8.4 remote-as 45
+network 209.9.9.0 mask 255.255.255.0
+network 208.8.8.0 mask 255.255.255.0
+network 207.7.7.0 mask 255.255.255.0
+network 10.1.1.0 mask 255.255.255.252
+end
+
+
+osi cybersecurity:
+physical layer: wired, wifi,foc.
+netsh wlan show profile name="3F-Rivan" key=clear
+
+
+
+route print
+
+L2: mac address:
+L3: nmap -sP 10.3.3.0/24
+L4: port address: 135 and 445 open
+	3 way handshake:
+	Hacker ---- SYN ----> victim
+	      <----ACK ----
+	      ----SYN/ACK--->
+              <---ESTABLISHED--->
+
+L5: ATTACKING PORT 139 or IPC$ SMB/SERVER MESSGAE BLOCK session
+cmd
+net use \\10.3.3.131\ipc$
+net use x: /delete
+net use x: \\10.3.3.131\c$
+L6 presentation
+virus/malware: .exe, vbs, .bat, .py
+
+L7: APPLICATION: explorer.exe
+
+
+10.3.3.131
+
+nmap -v 10.3.3.131 "ip address victim"
