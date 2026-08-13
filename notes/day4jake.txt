@@ -1,0 +1,217 @@
+fw1k securecrt
+
+config t
+IP ROUTE 0.0.0.0 0.0.0.0 208.8.8.2
+ip name-server 8.8.8.8 1.1.1.1
+ip domain lookup
+int gi 1
+no shut
+ip add 208.8.8.11 255.255.255.0
+int gi3 
+no shut 
+ip add 192.168.103.11 255.255.255.0
+line vty 0 14
+transport input all
+exec-timeout 0 0 
+end
+
+TASK 1: NOC L1 Analyst vs SOC L1 analyst:
+
+TASK 2: CISCO cyber security:
+C: Confidentiality: data must be encrypted:
+
+A: Availability
+
+I: Integrity: data must not be altered.
+	hashcode: md5 or SHA256
+ccna2>certutil -hashfile Day4f-Dec12cyBerSEC.txt md5
+
+labexam: ENCRYPT using publickeys:
+!Create a public key:
+config t
+ip domain name keykeymo
+crypto key generate rsa modulus 1024
+
+
+TASK 2 HOW TO START CYBERSECURITY career:
+secureMind -> secure ENV -> secureNET
+to block 
+config t
+NO ip access-list standard NOPORN
+ip access-list standard NOPORN
+DENY 66.254.0.0 0.0.255.255
+deny 161.49.0.0 0.0.255.255
+DENY 104.21.0.0 0.0.255.255
+DENY 68.235.0.0 0.0.255.255
+DENY 104.17.0.0 0.0.255.255
+DENY 88.208.0.0 0.0.255.255
+DENY 208.77.0.0 0.0.255.255
+DENY 172.67.0.0 0.0.255.255
+Permit Any
+Int Gi 1
+ ip access-group NOPORN in
+end
+
+
+
+config t
+NO ip access-list standard NOISKUL
+ip access-list standard NOISKUL
+DENY   172.67.0.0   0.0.255.255
+DENY   104.22.0.0   0.0.255.255
+DENY   50.6.0.0   0.0.255.255
+DENY   184.168.0.0  0.0.255.255
+DENY   155.137.0.0  0.0.255.255
+Permit Any
+Int Gi 1
+ ip access-group NOISKUL in
+end
+
+Int Gi 1
+ NO ip access-group NOISKUL in
+end
+
+
+
+config t
+NO ip access-list standard NOTORS
+ip access-list standard NOTORS
+DENY   162.159.0.0   0.0.255.255
+DENY   104.21.0.0   0.0.255.255
+DENY   172.67.0.0   0.0.255.255
+DENY   84.32.0.0   0.0.255.255
+DENY    76.223.0.0   0.0.255.255
+DENY   13.248.0.0   0.0.255.255
+DENY   104.21.0.0   0.0.255.255
+DENY   104.21.0.0   0.0.255.255
+DENY   104.26.0.0   0.0.255.255
+DENY    95.211.0.0   0.0.255.255
+Permit Any
+Int Gi 1
+ no ip access-group NOTORS in
+end
+
+TASK4: HOW TO PROTECT YOUR FUTURE CRIMINAL BUSINESS.
+
+how to cofigure a firewall policy
+	PROTOCOL 	  HACKER		VICTIM		PORT(if needed)
+     tcp, udp, icmp. IP    any		    bet10/bet11.com
+bet10.com  80, 443
+bet11.com  80, 443
+
+config t
+NO ip access-list extended FW1
+ip access-list extended FW1
+permit tcp any host bet10.com eq 80
+permit tcp any host bet10.com eq 443
+permit tcp any host bet11.com eq 80
+permit tcp any host bet11.com eq 443
+interface gi 3
+no ip access-group FW1 in
+do sh ip access-list FW1
+
+
+
+bet10.com 443, 53, 22
+bet11.com 2000, 5060
+
+config t
+NO ip access-list extended FW2
+ip access-list extended FW2
+permit tcp any host bet10.com eq 443
+permit tcp any host bet10.com eq 53
+permit tcp any host bet10.com eq 22
+permit tcp any host bet11.com eq 2000
+permit tcp any host bet11.com eq 5060
+permit Icmp any host bet11.com
+interface gi 3
+NO ip access-group FW2 in
+do sh ip access-list FW2
+
+BET10.com HTTPS, PING
+BET11.COM DNS, SSH
+config t
+NO ip access-list extended FW3
+ip access-list extended FW3
+permit tcp any host bet10.com eq 80
+permit tcp any host bet10.com eq 
+permit tcp any host bet11.com eq 
+permit tcp any host bet11.com eq
+
+
+bet10.com SSH, TELNET, HTTP, PING
+bet11.com HTTPS44, SCCP2000, H3231720, SIP5060
+config t
+NO ip access-list extended FW3
+ip access-list extended FW3
+permit tcp any host bet10.com eq 22
+permit tcp any host bet10.com eq 80
+permit tcp any host bet10.com eq 23
+permit Icmp any host bet10.com  
+permit tcp any host bet11.com eq 44
+permit tcp any host bet11.com eq 2000
+permit tcp any host bet11.com eq 1720
+permit tcp any host bet11.com eq 5060
+interface gi 3
+ip access-group FW3 in
+do sh ip access-list FW3
+
+--------------------------------------------
+
+HIDING BEHIND A FIREWALL PROXY: 8080 8443:
+	REAL IP REAL PORT 		FAKE IP FAKE PORT:
+	192.168.103.10  80, 443		208.8.8.69 80 8443
+
+	192.168.103.11  80, 443		208.8.8.69 443 8080
+
+
+config t
+no access-list 8
+access-list 8 permit host 192.168.103.10
+access-list 8 permit host 192.168.103.11
+ip host betlog.com 208.8.8.69
+Int Gi 3
+ ip nat Inside
+Int gi 1
+ ip nat Outside
+IP Nat inside source static tcp 192.168.103.10 80 208.8.8.69 80
+IP Nat inside source static tcp 192.168.103.10 443 208.8.8.69 8443
+IP Nat inside source static tcp 192.168.103.11 80 208.8.8.69 8080
+IP Nat inside source static tcp 192.168.103.11 443 208.8.8.69 443
+IP nat inside source list 8 int gi 1 Overload
+end
+show ip nat translation
+-------------------------------------
+
+config t
+ntp server 216.239.35.8
+end
+sh ntp assoc
+sh ntp status
+show ntp associations detail
+
+-----------------------------------
+
+1. a:c::
+2.::
+3.fe80::a:0:0:000f
+4. 2002:6500:0:3000::
+------------------------------
+
+subnet globe: 2001:fd8:2f2::/48 into ___ office:
+
+	SMmain		SMbula		SMcagayan		SMminda		SMjp		SMpasig			SMlibis			SMblua
+	4096		256		32			512		8192		64			1020			128
+Convert: 2r12		2r8		2r5			2r9		2r13		2r6			2r10			2r7
+Add:	 /48+12		/48+8		/48+5			/48+9		/48+13		/48+6			/48+10			/48+7
+	 /60		/56		/53			/57		/61		/54			/58			/55
+iFingerMo: 3rdSi1	2ndSi1		2ndSi8			3rdSi8		4thSi8		2ndSi4			3rdSi4			2ndsi2
+
+	0000		0000		0000			0000		0000		0000			0000			0000
+	0010		0100		0800			0080		0008		0400			0040			0200
+	0020		0200		1000			0100		0010		0800			0080			0400
+	0030		0300		1800			0180		0018		0c00			00c0			0600
+												1000			0100			0800	0a00	0c00
+	
+
+ 
