@@ -1,0 +1,140 @@
+SAN Mig Cubao
+
+Network: 2001:db8:acca::/56
+	8 offices
+C: 3 bits
+A:/56+3
+   /59
+I:3rdsi2
+
+0000
+0020
+0040
+0060
+0080
+00a0
+00c0
+00e0	
+
+
+TASK1:
+
+EXAM: 2 SWITCHES
+TRABAHO: core, dis, access!!
+
+-------------------------------
+	
+STED - switchport trunk encapsulation dot
+SMT - switchport mode trunk
+STAV - 
+STAN V - switchport trunk native vlan
+
+CGMA - CHANNEL GROUP MODE ACTIVE
+CUPAL - CHANNEL PROTOCOL LACP
+
+	catalyst:
+Core: 9500x or 9600x
+distri: 9500x, 9300x, 9400x
+access: 9200x, x=10G
+
+sh cdp neighbors
+
+802.1Q trunking
+802.1D stp
+802.1W rapidstp
+802.1S mstp
+
+@C1:C2
+config t
+Int Range e0/1-3,e1/1-2,e2/1-2
+ shutdown
+ switchport trunk Encap Dot1Q
+ switchport mode trunk
+ switchport trunk allowed vlan 1-100
+ switchport trunk native vlan 1
+ no shut
+ do sh int trunk
+
+how to kill cisco switch
+sudo su
+yersinia -G
+
+
+sh spanning-tree vlan1
+
+if there's error type sise
+show interfaces status err-disabled
+
+if you want to save on secure crt
+wr
+copy run start
+
+if you want to work all your cores
+@taas/baba
+CONFIG T
+spanning-tree mode Mst
+spanning-tree mst configuration
+ name supermanstp
+ revision 1
+   Instance 1 vlan 11-19
+   Instance 2 vlan 21-29
+   Instance 3 vlan 31-39
+exit
+do sh spanning-tree mst configuration 
+
+for security
+@baba
+config t
+Int fa0/6
+switchport mode access
+switchport port-security
+switchport port-security mac-address Sticky
+switchport port-security maximum 1
+switchport port-security violation shutdown
+Int fa0/8
+switchport mode access
+switchport port-security
+switchport port-security mac-address Sticky
+switchport port-security maximum 1
+switchport port-security violation shutdown
+do sh port-security address
+
+for fusion (magsasama sama yung port 10, 11, 12)
+config t
+Int Range fa0/10-12
+ channel-group 1 mode active
+ channel-protocol Lacp
+ do sh etherchannel summary
+ do sh int po1 | inc BW
+-----------------------------------------------
+@COREtaas
+config t
+hostname coretaasPLDT
+Int vlan 1
+standby 1 ip 10.21.1.6
+standby 1 preempt
+standby 1 Priority 150
+standby 1 Track 1 decrement 60
+end
+
+@COREBABA/GLOBE:
+config t
+hostname corebabaGLOBE
+Int vlan 1
+standby 1 ip 10.21.1.6
+standby 1 preempt
+standby 1 Priority 100
+end
+
+
+
+ipv4:
+topics: HOSTS
+CSI
+TOPICS: MAXIMIZATION, SUBNET, DEPARTMENT
+CAI
+
+example
+
+16 new sites
+10.20.0.0/16
